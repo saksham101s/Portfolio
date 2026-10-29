@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-void: #05060a;
+  --color-ink: #0b0d14;
+  --color-panel: #0f121b;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-fg: #e8eaf0;
+  --color-muted: #8a90a2;
+  --color-signal: #c6ff3d;
+  --color-ice: #6ee7ff;
+  --color-ember: #ff7a45;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-syne);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-void);
+  color: var(--color-fg);
+  color-scheme: dark;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-void);
+}
+
+/* Faint coordinate grid + film grain over the whole page */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 30%, transparent 80%);
+}
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-5%, 3%); }
+  40% { transform: translate(3%, -6%); }
+  60% { transform: translate(-4%, 5%); }
+  80% { transform: translate(6%, -2%); }
+}
+
+/* Spotlight that follows the cursor inside cards (set --mx / --my from JS) */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(
+    500px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(198 255 61 / 0.08),
+    transparent 40%
+  );
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Animated data flowing along pipeline connectors */
+.flow-line {
+  background-image: linear-gradient(90deg, transparent 0 40%, var(--color-signal) 50%, transparent 60% 100%);
+  background-size: 200% 100%;
+  animation: flow 2.2s linear infinite;
+}
+@keyframes flow {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px rgb(232 234 240 / 0.35);
+  color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor a,
+  .has-custom-cursor button {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

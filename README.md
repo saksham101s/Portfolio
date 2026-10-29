@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saksham Upreti — Portfolio
 
-## Getting Started
+"Vector Space" portfolio: a 3D embedding-particle hero, a ⌘K search over the site with similarity scores, and projects shown as retrieved results.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Edit content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All text, links and projects live in **`src/data/portfolio.ts`**. To add a project's links, set `github` / `demo` on it — the buttons appear automatically.
+Replace `public/Saksham_Upreti_Resume.pdf` to update the downloadable resume.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy (Vercel)
 
-## Learn More
+1. Push this repo to GitHub and import it at vercel.com/new (framework is auto-detected).
+2. Add env var `NEXT_PUBLIC_SITE_URL` = your final URL (used for SEO, sitemap and the social preview image).
 
-To learn more about Next.js, take a look at the following resources:
+## Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · React Three Fiber (custom GLSL shader) · Motion · Lenis · cmdk
